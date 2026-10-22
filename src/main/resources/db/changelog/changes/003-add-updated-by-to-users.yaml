@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-add-updated-by-to-users
+      author: murad
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: updated_by
+                  type: INTEGER

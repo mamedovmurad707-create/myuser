@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-add-status-and-timestamps-to-users
+      author: murad
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: status_id
+                  type: INTEGER
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
