@@ -1,5 +1,6 @@
 package com.example.my_user_app.service.impl;
 
+import com.example.my_user_app.constant.UserStatus;
 import com.example.my_user_app.entity.UserEntity;
 import com.example.my_user_app.mapper.UserMapper;
 import com.example.my_user_app.model.request.UserRequest;
@@ -40,5 +41,14 @@ public class UserServiceImpl implements UserService {
        entity.setAge(age);
        userRepository.save(entity);
 
+    }
+
+    @Override
+    public UserResponse deleteById(Long id) {
+        UserEntity user = userRepository.findById(id).orElseThrow(()->
+                new RuntimeException("User by id:" + id + "not found"));
+        user.setStatus(UserStatus.DELETE.getKey());
+        userRepository.save(user);
+        return userMapper.toResponse(user);
     }
 }

@@ -15,6 +15,7 @@ public class UserMapper {
                 .email(entity.getEmail())
                 .phone(entity.getPhone())
                 .age(entity.getAge())
+                .statusId(entity.getStatus())
                 .build();
     }
     public  UserEntity toEntity(UserRequest request){

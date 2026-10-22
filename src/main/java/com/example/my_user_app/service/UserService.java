@@ -7,4 +7,5 @@ public interface UserService {
     UserResponse create(UserRequest request);
     UserResponse getById(Long id);
     void updateByID(Long id, String name , Integer age );
+    UserResponse deleteById(Long id);
 }

@@ -6,6 +6,7 @@ import com.example.my_user_app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,15 +29,20 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserResponse getById(@PathVariable Long id){
-return service.getById(id);
+    return service.getById(id);
     }
 
     @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public void update(@PathVariable Long id,
                        @RequestParam String name,
-                       @RequestParam Integer age ){
-        service.updateByID(id,name,age);
+                       @RequestParam Integer age ) {
+        service.updateByID(id, name, age);
+    }
+
+    @PatchMapping("/delete/{id}")
+    public UserResponse deleteById(@PathVariable Long id){
+        return service.deleteById(id);
 
     }
 

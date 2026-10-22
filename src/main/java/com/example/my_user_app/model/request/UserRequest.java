@@ -14,4 +14,5 @@ public class UserRequest {
     private String email;
     private Long phoneNumber;
     private Integer age;
+    private Integer statusId;
 }
