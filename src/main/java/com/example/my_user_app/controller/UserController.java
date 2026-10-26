@@ -3,7 +3,12 @@ package com.example.my_user_app.controller;
 import com.example.my_user_app.model.request.UserRequest;
 import com.example.my_user_app.model.response.UserResponse;
 import com.example.my_user_app.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,7 +28,7 @@ public class UserController {
     private final UserService service;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse create(@RequestBody UserRequest request){
+    public UserResponse create(@RequestBody @Valid UserRequest request){
         return service.create(request);
     }
 
@@ -33,18 +38,23 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable Long id,
-                       @RequestParam String name,
-                       @RequestParam Integer age ) {
-        service.updateByID(id, name, age);
+                       @RequestBody @Valid UserRequest request ) {
+        service.updateById(id, request);
     }
 
     @PatchMapping("/delete/{id}")
-    public UserResponse deleteById(@PathVariable Long id){
+    public UserResponse deleteById(@PathVariable Long id) {
         return service.deleteById(id);
+    }
+        @GetMapping
+        public Page<UserResponse> getAllUsers (@PageableDefault(size = 10, sort = "id")
+                Pageable pageable){
+        return service.getAllUsers(pageable);
+        }
 
     }
 
 
-}
+
