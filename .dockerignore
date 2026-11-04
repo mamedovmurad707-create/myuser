@@ -1,0 +1,8 @@
+# build/ qovluğundan yalnız libs/ (jar) image-ə düşsün
+build/*
+!build/libs/
+.gradle/
+.idea/
+*.iml
+.git/
+src/

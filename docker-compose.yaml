@@ -1,0 +1,39 @@
+services:
+
+  # ---------- Verilənlər bazası ----------
+  db:
+    image: postgres:16
+    container_name: my_user_app_db
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      # kompüterdən 5435 -> konteyner içində 5432 (5434-də köhnə my-postgres konteynerin işləyir)
+      - "5435:5432"
+    volumes:
+      # Data konteyner silinsə də itməsin deyə named volume-da saxlanılır
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ---------- Spring Boot tətbiqi ----------
+  app:
+    build: .                     # bu qovluqdakı Dockerfile-dan image yığ
+    container_name: my_user_app
+    ports:
+      - "8080:8080"
+    environment:
+      # Konteynerlər bir-birini servis adı ilə görür: "localhost" yox, "db"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      db:
+        condition: service_healthy   # baza "hazıram" deyənə qədər gözlə
+
+volumes:
+  pgdata:
