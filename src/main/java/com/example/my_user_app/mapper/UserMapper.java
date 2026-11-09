@@ -1,5 +1,6 @@
 package com.example.my_user_app.mapper;
 
+import com.example.my_user_app.constant.Role;
 import com.example.my_user_app.entity.UserEntity;
 import com.example.my_user_app.model.request.UserRequest;
 import com.example.my_user_app.model.response.UserResponse;
@@ -24,6 +25,7 @@ public class UserMapper {
         userEntity.setEmail(request.getEmail());
         userEntity.setAge(request.getAge());
         userEntity.setPhone(String.valueOf(request.getPhoneNumber()));
+        userEntity.setRole(Role.USER);
 return userEntity;
     }
 }

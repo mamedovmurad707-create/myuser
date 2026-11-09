@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/changes/002-add-status-and-timestamps-to-users.yaml
   - include:
       file: db/changelog/changes/003-add-updated-by-to-users.yaml
+  - include:
+      file: db/changelog/changes/004-add-role-to-users.yaml
