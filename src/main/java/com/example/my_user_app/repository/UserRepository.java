@@ -14,4 +14,8 @@ public interface UserRepository extends JpaRepository<UserEntity,Long> {
    Optional<UserEntity> findByIdAndStatusNot(Long id, Integer statusId);
    @Query("SELECT u FROM UserEntity u WHERE u.status <> :statusId")
    Page<UserEntity> findAllActiveUsers(Pageable pageable,Integer statusId);
+   Optional<UserEntity> findByEmailAndStatus(String email, Integer statusId);
+   Optional<UserEntity> findByIdAndStatus(Long id , Integer statusId);
+   Optional<UserEntity> findByEmailAndStatusNot(String email, Integer statusId);
+   boolean existsByEmailAndStatusNot(String email, Integer statusId);
 }

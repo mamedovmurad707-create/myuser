@@ -11,7 +11,7 @@ USER appuser
 # Hazır jar-ı image-ə kopyalayırıq ("-plain.jar" yox, içində bütün dependency-lər olan fat jar).
 COPY build/libs/*-SNAPSHOT.jar app.jar
 
-# Spring Boot default olaraq 8080 portunda işləyir.
-EXPOSE 8080
+# Tətbiq application.yaml-da 4525 portuna qoyulub.
+EXPOSE 4525
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

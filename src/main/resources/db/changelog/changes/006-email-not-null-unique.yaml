@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-email-not-null-unique
+      author: murad
+      changes:
+        - addNotNullConstraint:
+            tableName: users
+            columnName: email
+            columnDataType: VARCHAR(255)
+        - addUniqueConstraint:
+            tableName: users
+            columnNames: email
+            constraintName: uk_users_email

@@ -1,6 +1,9 @@
 package com.example.my_user_app.controller;
 
+import com.example.my_user_app.model.request.UpdatePassRequest;
 import com.example.my_user_app.model.request.UserRequest;
+import com.example.my_user_app.model.request.VerifyCredentialsRequest;
+import com.example.my_user_app.model.response.AuthUserResponse;
 import com.example.my_user_app.model.response.UserResponse;
 import com.example.my_user_app.service.UserService;
 import jakarta.validation.Valid;
@@ -9,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,6 +56,23 @@ public class UserController {
                 Pageable pageable){
         return service.getAllUsers(pageable);
         }
+
+        @GetMapping("/email")
+    public ResponseEntity<UserResponse> getUserByEmail(@RequestParam String email){
+        UserResponse data = service.getUserByEmail(email);
+        return ResponseEntity.ok(data);
+        }
+
+        @PatchMapping("/{email}/password")
+    public ResponseEntity<String> updateUserPasswordById(@PathVariable String email,
+                                                         @RequestBody @Valid UpdatePassRequest request){
+        return ResponseEntity.ok(service.updateUserPassByEmail(email, request));
+    }
+
+    @PostMapping("/internal/verify-credentials")
+    public ResponseEntity<AuthUserResponse> verifyCredentials(@RequestBody @Valid VerifyCredentialsRequest verifyCredentialsRequest){
+        return ResponseEntity.ok(service.verifyCredentials(verifyCredentialsRequest));
+    }
 
     }
 

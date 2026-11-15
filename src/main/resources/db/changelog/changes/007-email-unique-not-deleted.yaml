@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-email-unique-not-deleted
+      author: murad
+      changes:
+        # Köhnə tam unikallıq silinir: silinmiş (status 0) istifadəçinin email-i yenidən istifadə oluna bilsin
+        - dropUniqueConstraint:
+            tableName: users
+            constraintName: uk_users_email
+        # Silinməmiş (aktiv və bloklanmış) sətirlər arasında email unikal olsun:
+        # bloklanmış istifadəçinin email-ini başqası götürə bilməsin.
+        # Liquibase-in createIndex-i WHERE dəstəkləmir, ona görə xam SQL.
+        - sql:
+            dbms: postgresql
+            sql: CREATE UNIQUE INDEX uk_users_email_not_deleted ON users (email) WHERE status_id <> 0;
+      rollback:
+        - sql:
+            sql: DROP INDEX uk_users_email_not_deleted;
+        - addUniqueConstraint:
+            tableName: users
+            columnNames: email
+            constraintName: uk_users_email

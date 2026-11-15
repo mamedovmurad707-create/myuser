@@ -25,7 +25,7 @@ services:
     build: .                     # bu qovluqdakı Dockerfile-dan image yığ
     container_name: my_user_app
     ports:
-      - "8080:8080"
+      - "4525:4525"
     environment:
       # Konteynerlər bir-birini servis adı ilə görür: "localhost" yox, "db"
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres

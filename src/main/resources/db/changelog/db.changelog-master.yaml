@@ -7,3 +7,9 @@ databaseChangeLog:
       file: db/changelog/changes/003-add-updated-by-to-users.yaml
   - include:
       file: db/changelog/changes/004-add-role-to-users.yaml
+  - include:
+      file: db/changelog/changes/005-add-password-to-users.yaml
+  - include:
+      file: db/changelog/changes/006-email-not-null-unique.yaml
+  - include:
+      file: db/changelog/changes/007-email-unique-not-deleted.yaml

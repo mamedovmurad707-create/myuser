@@ -1,5 +1,6 @@
 package com.example.my_user_app.model.response;
 
+import com.example.my_user_app.constant.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +17,5 @@ public class UserResponse {
     private String phone;
     private Integer age;
     private Integer statusId;
+    private Role role;
 }

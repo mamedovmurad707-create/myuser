@@ -1,6 +1,5 @@
 package com.example.my_user_app.exception;
 
-import ch.qos.logback.core.model.processor.ModelHandlerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -38,6 +36,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    @ExceptionHandler(UserAlreadyExist.class)
+    public ResponseEntity<Map<String, Object>> handleUserAlreadyExist(UserAlreadyExist e) {
+        Map<String, Object> error = Map.of(
+                "timestamp", LocalDateTime.now(),
+                "status", 409,
+                "error", "Conflict",
+                "message", e.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException e) {
         Map<String, String> fieldErrors = new LinkedHashMap<>();
@@ -54,4 +63,26 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @ExceptionHandler(InvalidCredentials.class)
+    public ResponseEntity<Map<String,Object>> handleInvalidCredentials(InvalidCredentials ex){
+        Map<String,Object> error = Map.of(
+                "timestamp", LocalDateTime.now(),
+                "status", 401,
+                "error", "Invalid Credentials",
+                "message", ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+    @ExceptionHandler(UserNotActive.class)
+    public ResponseEntity<Map<String,Object>> handleUserNotActive(UserNotActive ex){
+        Map<String,Object> error = Map.of(
+                "timestamp", LocalDateTime.now(),
+                "status", 403,
+                "error", "User Not Active ",
+                "message", ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
+
 }
